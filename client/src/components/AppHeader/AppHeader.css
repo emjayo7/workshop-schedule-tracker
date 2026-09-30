@@ -1,0 +1,28 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  border-bottom: 1px solid #dce1da;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.brand-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 9px;
+  background: #d8e8dc;
+  color: #235e42;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.phase-label {
+  margin-left: auto;
+  color: #65706a;
+  font-size: 13px;
+  font-weight: 500;
+}

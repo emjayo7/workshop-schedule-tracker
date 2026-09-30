@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import AppHeader from "./components/AppHeader/AppHeader.jsx";
+import ConnectionStatus from "./components/ConnectionStatus/ConnectionStatus.jsx";
 
 function App() {
   const [connection, setConnection] = useState({
@@ -30,11 +32,7 @@ function App() {
 
   return (
     <main className="page-shell">
-      <header className="topbar">
-        <span className="brand-mark" aria-hidden="true">CP</span>
-        <span>Classwork Planner</span>
-        <span className="phase-label">Setup phase</span>
-      </header>
+      <AppHeader />
 
       <section className="welcome" aria-labelledby="page-title">
         <p className="eyebrow">A clear week starts here</p>
@@ -44,13 +42,7 @@ function App() {
           React app can reach its Express server and MongoDB database.
         </p>
 
-        <div className={`connection connection--${connection.state}`} role="status">
-          <span className="connection-indicator" aria-hidden="true" />
-          <div>
-            <strong>Development connection</strong>
-            <p>{connection.message}</p>
-          </div>
-        </div>
+        <ConnectionStatus state={connection.state} message={connection.message} />
       </section>
     </main>
   );
