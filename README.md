@@ -46,6 +46,10 @@ npm run dev
 
 Open the local URL printed by Vite (usually `http://localhost:5173`). The starter screen checks the Express API and MongoDB connection. The server health endpoint is available at `http://localhost:5000/api/health`.
 
+## Frontend API URL
+
+Local development leaves `VITE_API_BASE_URL` unset, so requests use the Vite proxy to reach `http://localhost:5000`. For a deployed frontend, set `VITE_API_BASE_URL` to the backend URL in the frontend host's build environment before building or redeploying. `client/.env.example` shows the Render backend URL. Vite embeds `VITE_` variables into the frontend bundle, so use this only for public configuration, never secrets.
+
 ## MongoDB connection
 
 For a local MongoDB server, the example connection string is:

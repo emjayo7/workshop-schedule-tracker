@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import AppHeader from "./components/AppHeader/AppHeader.jsx";
 import ConnectionStatus from "./components/ConnectionStatus/ConnectionStatus.jsx";
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_BASE_URL || ""
+  : "";
+
 function App() {
   const [connection, setConnection] = useState({
     state: "checking",
@@ -9,7 +13,7 @@ function App() {
   });
 
   useEffect(() => {
-    fetch("/api/health")
+    fetch(`${apiBaseUrl}/api/health`)
       .then(async (response) => {
         const result = await response.json();
 
