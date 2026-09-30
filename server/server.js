@@ -3,11 +3,13 @@ import express from "express";
 import mongoose from "mongoose";
 import User from "./models/User.js";
 import classRoutes from "./routes/classRoutes.js";
+import { createCorsMiddleware } from "./middleware/corsMiddleware.js";
 
 const app = express();
 const port = process.env.PORT || process.env.port || 5000;
 const demoUserEmail = process.env.DEMO_USER_EMAIL || "student@example.com";
 
+app.use(createCorsMiddleware());
 app.use(express.json());
 app.use("/api/classes", classRoutes);
 

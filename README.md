@@ -1,3 +1,7 @@
+
+## Backend CORS
+
+The backend allows `http://localhost:5173` and `http://127.0.0.1:5173` for local development. In the backend's Render environment, set `FRONTEND_URL` to the deployed frontend's exact origin, for example `https://your-frontend-name.onrender.com` (no path or trailing slash), then redeploy the backend. The CORS allowlist does not use a wildcard and enables credentials for future authenticated requests.
 # Classwork Schedule Planner
 
 A beginner-friendly MERN application for a weekly class timetable and the tasks attached to each class.
