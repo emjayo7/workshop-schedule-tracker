@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getCreatedDateKey,
   getLocalTodayKey,
@@ -18,6 +18,17 @@ function TaskForm({ task, onClose, onSave }) {
   const earliestDueDate = task?.createdAt
     ? getCreatedDateKey(task.createdAt)
     : getLocalTodayKey();
+
+  useEffect(() => {
+    function handleEscape(event) {
+      if (event.key === "Escape" && !saving) {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [onClose, saving]);
 
   function updateField(event) {
     const { name, value } = event.target;

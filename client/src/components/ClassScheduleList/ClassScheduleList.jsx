@@ -6,6 +6,7 @@ function ClassScheduleList({
   emptyMessage,
   showDay = false,
   highlightClassId,
+  highlightLabel = "Next up",
   onSelectClass,
 }) {
   if (classes.length === 0) {
@@ -16,7 +17,7 @@ function ClassScheduleList({
     <ul className="schedule-list">
       {classes.map((classItem) => (
         <li
-          className={`schedule-item${classItem._id === highlightClassId ? " schedule-item--next" : ""}`}
+          className={`schedule-item${classItem._id === highlightClassId ? " schedule-item--highlight" : ""}`}
           key={classItem._id}
         >
           <time className="schedule-time">
@@ -26,7 +27,7 @@ function ClassScheduleList({
           <div className="schedule-info">
             <button className="schedule-class-open" type="button" onClick={() => onSelectClass(classItem)}>
               {classItem.subjectName}
-              <span>{classItem._id === highlightClassId ? "Next up · View tasks" : "View tasks"}</span>
+              <span>{classItem._id === highlightClassId ? `${highlightLabel} · View tasks` : "View tasks"}</span>
             </button>
             <span>
               {showDay ? `${classItem.dayOfWeek} · ` : ""}

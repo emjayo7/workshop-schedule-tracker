@@ -18,12 +18,12 @@
   border-bottom: 0;
 }
 
-.schedule-item--next {
+.schedule-item--highlight {
   padding-left: 10px;
   border-left: 3px solid #397451;
 }
 
-.schedule-item--next .schedule-time {
+.schedule-item--highlight .schedule-time {
   color: #235e42;
 }
 

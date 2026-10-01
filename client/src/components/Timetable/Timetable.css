@@ -63,6 +63,23 @@
   font-weight: 700;
 }
 
+.day-column--today .day-heading {
+  background: #e5eee6;
+  color: #235e42;
+}
+
+.today-marker {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 3px 6px;
+  border-radius: 10px;
+  background: #397451;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
 .empty-day {
   margin: 0;
   padding: 18px 12px;
@@ -90,6 +107,18 @@
 .timetable-class--overlap {
   border-left-color: #b35a3d;
   background: #fff0e9;
+}
+
+.timetable-class--current {
+  border-left-color: #235e42;
+  background: #deebdf;
+  box-shadow: inset 0 0 0 1px #b5cdb9;
+}
+
+.timetable-class--current.timetable-class--overlap {
+  border-left-color: #a04432;
+  background: #fff0e9;
+  box-shadow: inset 0 0 0 1px #e7c7bd;
 }
 
 .timetable-class-time {

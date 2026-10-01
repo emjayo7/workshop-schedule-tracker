@@ -56,6 +56,15 @@ export function getCreatedDateKey(createdAt) {
   return getLocalTodayKey(new Date(createdAt));
 }
 
+export function getTaskCompletedDateKey(completedAt) {
+  if (!completedAt) {
+    return "";
+  }
+
+  const completionDate = new Date(completedAt);
+  return Number.isNaN(completionDate.getTime()) ? "" : getLocalTodayKey(completionDate);
+}
+
 export function formatTaskDueDate(dueDate) {
   const dateKey = getTaskDueDateKey(dueDate);
   if (!dateKey) {

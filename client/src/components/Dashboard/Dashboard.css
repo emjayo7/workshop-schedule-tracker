@@ -102,7 +102,7 @@
 
 .task-counts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid #e0e5df;
   border-bottom: 1px solid #e0e5df;
 }
@@ -141,6 +141,10 @@
 
 .task-count--completed strong {
   color: #397451;
+}
+
+.task-count--completed-today strong {
+  color: #315f43;
 }
 
 .section-heading--compact {
@@ -327,6 +331,22 @@
   .task-count {
     padding-right: 10px;
     padding-left: 10px;
+  }
+
+  .task-counts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .task-count:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .task-count:nth-child(n + 3) {
+    border-top: 1px solid #e0e5df;
+  }
+
+  .task-count:nth-child(3) {
+    padding-left: 0;
   }
 
   .task-count:first-child {

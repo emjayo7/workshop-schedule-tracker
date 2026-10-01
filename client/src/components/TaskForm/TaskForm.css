@@ -1,5 +1,7 @@
 .task-form-dialog {
   width: min(100%, 520px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
   padding: 26px;
   border: 1px solid #dce1da;
   border-radius: 10px;

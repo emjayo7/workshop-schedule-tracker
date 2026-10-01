@@ -102,6 +102,8 @@ function Dashboard({ classes, onAddClass, onSelectClass, onNavigate }) {
           <ClassScheduleList
             classes={data.todayClasses}
             emptyMessage="No classes scheduled for today."
+            highlightClassId={data.currentClass?._id}
+            highlightLabel="Happening now"
             onSelectClass={onSelectClass}
           />
         </section>
@@ -118,6 +120,7 @@ function Dashboard({ classes, onAddClass, onSelectClass, onNavigate }) {
             emptyMessage="No upcoming classes in your weekly schedule."
             showDay
             highlightClassId={data.upcomingClasses[0]?._id}
+            highlightLabel="Next up"
             onSelectClass={onSelectClass}
           />
         </section>
@@ -154,6 +157,10 @@ function Dashboard({ classes, onAddClass, onSelectClass, onNavigate }) {
               <div className="task-count task-count--completed">
                 <span>Completed</span>
                 <strong>{data.taskCounts.completed}</strong>
+              </div>
+              <div className="task-count task-count--completed-today">
+                <span>Completed today</span>
+                <strong>{data.taskCounts.completedToday}</strong>
               </div>
             </div>
 

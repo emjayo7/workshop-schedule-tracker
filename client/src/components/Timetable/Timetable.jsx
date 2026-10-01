@@ -1,10 +1,19 @@
-import { DAYS_OF_WEEK, getOverlappingClassIds, sortClassesBySchedule } from "../../utils/classUtils.js";
+import {
+  DAYS_OF_WEEK,
+  getCurrentClass,
+  getOverlappingClassIds,
+  getTodayName,
+  sortClassesBySchedule,
+} from "../../utils/classUtils.js";
 import { formatClassTime } from "../../utils/classUtils.js";
 import "./Timetable.css";
 
 function Timetable({ classes, onSelectClass }) {
   const overlapIds = getOverlappingClassIds(classes);
   const sortedClasses = sortClassesBySchedule(classes);
+  const now = new Date();
+  const todayName = getTodayName(now);
+  const currentClass = getCurrentClass(classes, now);
 
   return (
     <section className="timetable-view" aria-label="Weekly class timetable">
@@ -21,23 +30,30 @@ function Timetable({ classes, onSelectClass }) {
       <div className="week-grid">
         {DAYS_OF_WEEK.map((day) => {
           const dayClasses = sortedClasses.filter((classItem) => classItem.dayOfWeek === day);
+          const isToday = day === todayName;
 
           return (
-            <section className="day-column" key={day} aria-labelledby={`day-${day}`}>
-              <h2 id={`day-${day}`} className="day-heading">{day}</h2>
+            <section className={`day-column${isToday ? " day-column--today" : ""}`} key={day} aria-labelledby={`day-${day}`}>
+              <h2 id={`day-${day}`} className="day-heading">
+                {day}
+                {isToday && <span className="today-marker">Today</span>}
+              </h2>
               {dayClasses.length === 0 ? (
                 <p className="empty-day">No classes</p>
               ) : (
                 <ol className="day-class-list">
                   {dayClasses.map((classItem) => (
-                    <li className={`timetable-class${overlapIds.has(classItem._id) ? " timetable-class--overlap" : ""}`} key={classItem._id}>
+                    <li
+                      className={`timetable-class${overlapIds.has(classItem._id) ? " timetable-class--overlap" : ""}${currentClass?._id === classItem._id ? " timetable-class--current" : ""}`}
+                      key={classItem._id}
+                    >
                       <time className="timetable-class-time">
                         {formatClassTime(classItem.startTime)}
                         <span>{formatClassTime(classItem.endTime)}</span>
                       </time>
                       <button className="timetable-class-open" type="button" onClick={() => onSelectClass(classItem)}>
                         {classItem.subjectName}
-                        <span>View tasks</span>
+                        <span>{currentClass?._id === classItem._id ? "Happening now · View tasks" : "View tasks"}</span>
                       </button>
                       {(classItem.room || classItem.teacher) && (
                         <span className="timetable-class-detail">

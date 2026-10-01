@@ -27,6 +27,14 @@ export function getTodayClasses(classes, date = new Date()) {
   );
 }
 
+export function getCurrentClass(classes, date = new Date()) {
+  const currentTime = `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+
+  return getTodayClasses(classes, date).find((classItem) =>
+    classItem.startTime <= currentTime && classItem.endTime > currentTime,
+  ) || null;
+}
+
 export function getUpcomingClasses(classes, date = new Date()) {
   const todayIndex = (date.getDay() + 6) % 7;
   const currentTime = `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;

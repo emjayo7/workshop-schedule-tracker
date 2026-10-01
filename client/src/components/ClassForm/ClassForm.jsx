@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DAYS_OF_WEEK, validateClassInput } from "../../utils/classUtils.js";
 import "./ClassForm.css";
 
@@ -13,6 +13,17 @@ function ClassForm({ classItem, onClose, onSave }) {
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    function handleEscape(event) {
+      if (event.key === "Escape" && !saving) {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [onClose, saving]);
 
   function updateField(event) {
     const { name, value } = event.target;

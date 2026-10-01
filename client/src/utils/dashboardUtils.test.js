@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { deriveDashboardData } from "./dashboardUtils.js";
+import { getCurrentClass } from "./classUtils.js";
 
 test("sorts today's classes and upcoming sessions by local weekday and time", () => {
   const now = new Date(2026, 8, 24, 14, 0);
@@ -39,14 +40,27 @@ test("finds Monday sessions after Sunday evening", () => {
   assert.deepEqual(data.upcomingClasses.map((classItem) => classItem._id), ["monday", "tuesday"]);
 });
 
+test("identifies a class currently in progress using local time", () => {
+  const now = new Date(2026, 9, 1, 14, 30);
+  const classes = [
+    { _id: "past", dayOfWeek: "Thursday", startTime: "13:00", endTime: "14:00" },
+    { _id: "current", dayOfWeek: "Thursday", startTime: "14:00", endTime: "15:00" },
+    { _id: "next", dayOfWeek: "Thursday", startTime: "15:00", endTime: "16:00" },
+  ];
+
+  assert.equal(getCurrentClass(classes, now)._id, "current");
+  assert.equal(getCurrentClass(classes, new Date(2026, 9, 1, 16, 0)), null);
+});
+
 test("counts pending, overdue, and completed tasks from shared task status logic", () => {
   const now = new Date(2026, 9, 1, 12, 0);
   const tasks = [
     { _id: "due-yesterday", completed: false, dueDate: "2026-09-30", createdAt: "2026-09-01T12:00:00.000Z" },
     { _id: "due-today", completed: false, dueDate: "2026-10-01", createdAt: "2026-09-01T12:00:00.000Z" },
     { _id: "no-due-date", completed: false, dueDate: null, createdAt: "2026-09-01T12:00:00.000Z" },
-    { _id: "completed-overdue", completed: true, dueDate: "2026-09-20", createdAt: "2026-09-01T12:00:00.000Z" },
-    { _id: "completed-today", completed: true, dueDate: "2026-10-01", createdAt: "2026-09-01T12:00:00.000Z" },
+    { _id: "completed-overdue", completed: true, completedAt: new Date(2026, 9, 1, 9, 0), dueDate: "2026-09-20", createdAt: "2026-09-01T12:00:00.000Z" },
+    { _id: "completed-today", completed: true, completedAt: new Date(2026, 8, 30, 21, 0), dueDate: "2026-10-01", createdAt: "2026-09-01T12:00:00.000Z" },
+    { _id: "completed-without-time", completed: true, completedAt: null, dueDate: null, createdAt: "2026-09-01T12:00:00.000Z" },
   ];
 
   const data = deriveDashboardData([], tasks, now);
@@ -54,10 +68,11 @@ test("counts pending, overdue, and completed tasks from shared task status logic
   assert.deepEqual(data.taskCounts, {
     pending: 2,
     overdue: 1,
-    completed: 2,
-    total: 5,
+    completed: 3,
+    completedToday: 1,
+    total: 6,
     remaining: 3,
-    completionRatio: 0.4,
+    completionRatio: 0.5,
   });
 });
 
