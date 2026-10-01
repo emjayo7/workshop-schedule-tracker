@@ -1,7 +1,7 @@
 import { formatClassTime, getOverlappingClassIds, sortClassesBySchedule } from "../../utils/classUtils.js";
 import "./ClassManagement.css";
 
-function ClassManagement({ classes, onAdd, onEdit, onDelete }) {
+function ClassManagement({ classes, onAdd, onEdit, onDelete, onOpenTasks }) {
   const overlapIds = getOverlappingClassIds(classes);
   const sortedClasses = sortClassesBySchedule(classes);
 
@@ -40,6 +40,7 @@ function ClassManagement({ classes, onAdd, onEdit, onDelete }) {
                 {overlapIds.has(classItem._id) && <span className="overlap-inline">Overlapping time</span>}
               </div>
               <div className="class-row-actions">
+                <button className="button button--secondary" type="button" onClick={() => onOpenTasks(classItem)}>Tasks</button>
                 <button className="button button--secondary" type="button" onClick={() => onEdit(classItem)}>Edit</button>
                 <button className="button button--danger" type="button" onClick={() => onDelete(classItem)}>Delete</button>
               </div>

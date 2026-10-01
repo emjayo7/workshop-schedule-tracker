@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import User from "./models/User.js";
 import classRoutes from "./routes/classRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 import { createCorsMiddleware } from "./middleware/corsMiddleware.js";
 
 const app = express();
@@ -12,6 +13,7 @@ const demoUserEmail = process.env.DEMO_USER_EMAIL || "student@example.com";
 app.use(createCorsMiddleware());
 app.use(express.json());
 app.use("/api/classes", classRoutes);
+app.use("/api", taskRoutes);
 
 app.get("/api/health", (_request, response) => {
   response.json({

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Class, { weekdays } from "../models/Class.js";
+import Task from "../models/Task.js";
 import User from "../models/User.js";
 import { validateClassInput } from "../utils/classValidation.js";
 
@@ -132,6 +133,7 @@ export async function deleteClass(request, response) {
       return response.status(404).json({ success: false, message: "Class not found." });
     }
 
+    await Task.deleteMany({ userId: user._id, classId: classItem._id });
     return response.json({ success: true, data: { id: classItem._id } });
   } catch (error) {
     return sendServerError(response, error);

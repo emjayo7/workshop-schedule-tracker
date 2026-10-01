@@ -51,3 +51,33 @@ export function updateClass(classId, classData) {
 export function deleteClass(classId) {
   return request(`/api/classes/${classId}`, { method: "DELETE" });
 }
+
+export function fetchClassTasks(classId) {
+  return request(`/api/classes/${classId}/tasks`);
+}
+
+export function fetchTask(taskId) {
+  return request(`/api/tasks/${taskId}`);
+}
+
+export function createTask(classId, taskData) {
+  return request(`/api/classes/${classId}/tasks`, {
+    method: "POST",
+    body: JSON.stringify(taskData),
+  });
+}
+
+export function updateTask(taskId, taskData) {
+  return request(`/api/tasks/${taskId}`, {
+    method: "PUT",
+    body: JSON.stringify(taskData),
+  });
+}
+
+export function toggleTask(taskId) {
+  return request(`/api/tasks/${taskId}/toggle`, { method: "PATCH" });
+}
+
+export function deleteTask(taskId) {
+  return request(`/api/tasks/${taskId}`, { method: "DELETE" });
+}

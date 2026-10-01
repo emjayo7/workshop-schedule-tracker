@@ -1,0 +1,76 @@
+.task-form-dialog {
+  width: min(100%, 520px);
+  padding: 26px;
+  border: 1px solid #dce1da;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 18px 60px rgb(20 35 26 / 18%);
+}
+
+.task-form-dialog .dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.task-form-dialog .dialog-heading .eyebrow {
+  margin-bottom: 8px;
+}
+
+.task-form-dialog .dialog-heading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.task-form,
+.task-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.task-form {
+  gap: 16px;
+}
+
+.task-form label {
+  color: #39463e;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.task-form label span {
+  color: #778078;
+  font-weight: 400;
+}
+
+.task-form input,
+.task-form textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 10px;
+  border: 1px solid #cdd6ce;
+  border-radius: 6px;
+  background: #fff;
+  color: #202927;
+  font: inherit;
+  font-size: 15px;
+}
+
+.task-form textarea {
+  resize: vertical;
+}
+
+.task-form input:focus,
+.task-form textarea:focus {
+  outline: 2px solid #7aa88a;
+  outline-offset: 1px;
+}
+
+@media (max-width: 520px) {
+  .task-form-dialog {
+    padding: 20px;
+  }
+}

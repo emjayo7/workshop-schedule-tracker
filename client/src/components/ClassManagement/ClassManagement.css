@@ -67,7 +67,7 @@
 
 .class-row-actions .button {
   min-height: 34px;
-  padding: 0 10px;
+  padding: 0 9px;
   font-size: 13px;
 }
 
@@ -121,6 +121,7 @@
   }
 
   .class-row-actions {
+    flex-wrap: wrap;
     justify-content: flex-end;
   }
 }

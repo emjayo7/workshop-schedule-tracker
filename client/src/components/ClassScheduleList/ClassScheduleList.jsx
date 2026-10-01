@@ -1,7 +1,7 @@
 import { formatClassTime } from "../../utils/classUtils.js";
 import "./ClassScheduleList.css";
 
-function ClassScheduleList({ classes, emptyMessage, showDay = false }) {
+function ClassScheduleList({ classes, emptyMessage, showDay = false, onSelectClass }) {
   if (classes.length === 0) {
     return <p className="schedule-empty">{emptyMessage}</p>;
   }
@@ -15,7 +15,10 @@ function ClassScheduleList({ classes, emptyMessage, showDay = false }) {
             <span>{formatClassTime(classItem.endTime)}</span>
           </time>
           <div className="schedule-info">
-            <strong>{classItem.subjectName}</strong>
+            <button className="schedule-class-open" type="button" onClick={() => onSelectClass(classItem)}>
+              {classItem.subjectName}
+              <span>View tasks</span>
+            </button>
             <span>
               {showDay ? `${classItem.dayOfWeek} · ` : ""}
               {[classItem.room, classItem.teacher].filter(Boolean).join(" · ") || "Class session"}

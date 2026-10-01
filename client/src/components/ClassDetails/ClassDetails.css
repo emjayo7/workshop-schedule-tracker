@@ -1,0 +1,138 @@
+.class-details-view {
+  display: grid;
+  gap: 20px;
+}
+
+.back-link {
+  justify-self: start;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: #315f43;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.class-details-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #dce1da;
+}
+
+.class-details-heading h1 {
+  overflow-wrap: anywhere;
+}
+
+.class-details-time {
+  margin: 8px 0 0;
+  color: #66736b;
+  font-size: 14px;
+}
+
+.class-details-meta {
+  display: flex;
+  gap: 48px;
+  padding: 2px 0 14px;
+  border-bottom: 1px solid #dce1da;
+}
+
+.class-details-meta span {
+  display: grid;
+  gap: 4px;
+  color: #65736a;
+  font-size: 13px;
+}
+
+.class-details-meta strong {
+  color: #34463a;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.class-tasks-section {
+  max-width: 900px;
+}
+
+.class-tasks-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 0 4px;
+}
+
+.class-tasks-heading .eyebrow {
+  margin-bottom: 4px;
+}
+
+.class-tasks-heading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.class-tasks-heading p:last-child {
+  margin: 5px 0 0;
+  color: #6a756e;
+  font-size: 13px;
+}
+
+.task-groups {
+  padding-top: 2px;
+}
+
+.task-empty-state {
+  margin-top: 20px;
+  padding: 24px 0;
+  border-top: 1px solid #cfd8d0;
+}
+
+.task-empty-state h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.task-empty-state p,
+.task-loading,
+.task-load-error p {
+  color: #68746c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.task-load-error {
+  margin-top: 18px;
+  padding: 16px;
+  border-left: 3px solid #b34a3c;
+  background: #fff;
+}
+
+.task-action-error {
+  margin-top: 12px;
+}
+
+@media (max-width: 560px) {
+  .class-details-heading {
+    flex-direction: column;
+  }
+
+  .class-details-meta {
+    gap: 28px;
+  }
+
+  .class-tasks-heading {
+    align-items: flex-start;
+  }
+}

@@ -2,7 +2,7 @@ import ClassScheduleList from "../ClassScheduleList/ClassScheduleList.jsx";
 import { getTodayClasses, getUpcomingClasses } from "../../utils/classUtils.js";
 import "./Dashboard.css";
 
-function Dashboard({ classes, onAddClass }) {
+function Dashboard({ classes, onAddClass, onSelectClass }) {
   const now = new Date();
   const todayClasses = getTodayClasses(classes, now);
   const upcomingClasses = getUpcomingClasses(classes, now);
@@ -56,7 +56,7 @@ function Dashboard({ classes, onAddClass }) {
               </div>
               <span className="count-label">{todayClasses.length}</span>
             </div>
-            <ClassScheduleList classes={todayClasses} emptyMessage="No classes scheduled for today." />
+            <ClassScheduleList classes={todayClasses} emptyMessage="No classes scheduled for today." onSelectClass={onSelectClass} />
           </section>
 
           <section className="schedule-section">
@@ -66,7 +66,7 @@ function Dashboard({ classes, onAddClass }) {
                 <h2>Next sessions</h2>
               </div>
             </div>
-            <ClassScheduleList classes={upcomingClasses} emptyMessage="No upcoming classes in your weekly schedule." showDay />
+            <ClassScheduleList classes={upcomingClasses} emptyMessage="No upcoming classes in your weekly schedule." showDay onSelectClass={onSelectClass} />
           </section>
         </div>
       )}

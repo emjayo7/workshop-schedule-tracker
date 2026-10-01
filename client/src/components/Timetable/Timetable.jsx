@@ -2,7 +2,7 @@ import { DAYS_OF_WEEK, getOverlappingClassIds, sortClassesBySchedule } from "../
 import { formatClassTime } from "../../utils/classUtils.js";
 import "./Timetable.css";
 
-function Timetable({ classes }) {
+function Timetable({ classes, onSelectClass }) {
   const overlapIds = getOverlappingClassIds(classes);
   const sortedClasses = sortClassesBySchedule(classes);
 
@@ -35,7 +35,10 @@ function Timetable({ classes }) {
                         {formatClassTime(classItem.startTime)}
                         <span>{formatClassTime(classItem.endTime)}</span>
                       </time>
-                      <strong>{classItem.subjectName}</strong>
+                      <button className="timetable-class-open" type="button" onClick={() => onSelectClass(classItem)}>
+                        {classItem.subjectName}
+                        <span>View tasks</span>
+                      </button>
                       {(classItem.room || classItem.teacher) && (
                         <span className="timetable-class-detail">
                           {[classItem.room, classItem.teacher].filter(Boolean).join(" · ")}

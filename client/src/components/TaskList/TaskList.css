@@ -1,0 +1,136 @@
+.task-group {
+  margin-top: 26px;
+}
+
+.task-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #cfd8d0;
+}
+
+.task-group-heading h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.task-group-heading > span {
+  display: grid;
+  min-width: 23px;
+  height: 23px;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 12px;
+  background: #e8ece7;
+  color: #536158;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.task-group--overdue .task-group-heading h3 {
+  color: #a04432;
+}
+
+.task-group--completed .task-group-heading h3 {
+  color: #68746c;
+}
+
+.task-group-empty {
+  margin: 0;
+  padding: 14px 0;
+  color: #78837b;
+  font-size: 13px;
+}
+
+.task-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid #e4e8e3;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: #397451;
+  cursor: pointer;
+}
+
+.task-row-content {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.task-row-content > strong {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+.task-row-content > .task-due-date {
+  color: #65736a;
+  font-size: 12px;
+}
+
+.task-row--overdue .task-due-date {
+  color: #a04432;
+  font-weight: 700;
+}
+
+.task-row--completed .task-row-content > strong {
+  color: #778078;
+  text-decoration: line-through;
+}
+
+.task-row-content p {
+  margin: 3px 0 0;
+  color: #65736a;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.task-row-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.task-action {
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: #315f43;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.task-action:hover {
+  text-decoration: underline;
+}
+
+.task-action--delete {
+  color: #9a453a;
+}
+
+@media (max-width: 560px) {
+  .task-row {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+
+  .task-row-actions {
+    grid-column: 2;
+  }
+}
