@@ -1,6 +1,6 @@
 .dashboard-view {
   display: grid;
-  gap: 24px;
+  gap: 22px;
 }
 
 .dashboard-intro {
@@ -8,7 +8,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 20px;
-  padding: 26px 0 4px;
+  padding: 22px 0 2px;
 }
 
 .today-date {
@@ -22,62 +22,36 @@
 .empty-schedule h2 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 400;
 }
 
-.dashboard-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
+.dashboard-quick-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 12px 0;
   border-top: 1px solid #dce1da;
   border-bottom: 1px solid #dce1da;
 }
 
-.stat-item {
-  display: grid;
-  align-content: center;
-  gap: 7px;
-  min-height: 92px;
-  padding: 16px 20px;
-  border-right: 1px solid #dce1da;
-}
-
-.stat-item:first-child {
-  padding-left: 0;
-}
-
-.stat-item:last-child {
-  border-right: 0;
-}
-
-.stat-item span {
+.dashboard-quick-actions > span {
+  margin-right: 4px;
   color: #68746c;
   font-size: 13px;
 }
 
-.stat-item strong {
-  color: #202927;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 27px;
-  font-weight: 400;
-}
-
-.stat-item .stat-next {
-  overflow: hidden;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dashboard-columns {
+.dashboard-class-grid,
+.dashboard-lower-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 34px;
 }
 
-.schedule-section {
+.dashboard-section,
+.attention-section,
+.weekly-progress {
   min-width: 0;
 }
 
@@ -99,6 +73,12 @@
   font-weight: 700;
 }
 
+.section-heading h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .count-label {
   display: grid;
   width: 30px;
@@ -111,39 +91,226 @@
   font-weight: 700;
 }
 
-.empty-schedule {
-  padding: 42px 0 56px;
+.task-overview-section {
+  padding-top: 2px;
+  border-top: 1px solid #cfd8d0;
 }
 
-.empty-schedule .eyebrow {
-  margin-bottom: 10px;
+.task-overview-section > .section-heading {
+  border-bottom: 0;
 }
 
-.empty-schedule p:not(.eyebrow) {
-  max-width: 450px;
-  margin: 12px 0 20px;
+.task-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #e0e5df;
+  border-bottom: 1px solid #e0e5df;
+}
+
+.task-count {
+  display: grid;
+  gap: 5px;
+  min-height: 74px;
+  align-content: center;
+  padding: 12px 18px;
+  border-right: 1px solid #e0e5df;
+}
+
+.task-count:first-child {
+  padding-left: 0;
+}
+
+.task-count:last-child {
+  border-right: 0;
+}
+
+.task-count span {
   color: #68746c;
-  line-height: 1.6;
+  font-size: 13px;
+}
+
+.task-count strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.task-count--overdue strong {
+  color: #a04432;
+}
+
+.task-count--completed strong {
+  color: #397451;
+}
+
+.section-heading--compact {
+  min-height: 66px;
+}
+
+.attention-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attention-task {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 11px;
+  padding: 13px 0;
+  border-bottom: 1px solid #e7ebe6;
+}
+
+.attention-checkbox {
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+  accent-color: #397451;
+  cursor: pointer;
+}
+
+.attention-task-info {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.attention-task-title,
+.attention-task-title-text {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #202927;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.attention-task-title {
+  cursor: pointer;
+}
+
+.attention-task-title:hover {
+  color: #235e42;
+  text-decoration: underline;
+}
+
+.attention-task-class,
+.attention-task-status {
+  color: #68746c;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.attention-task-status--overdue {
+  color: #a04432;
+  font-weight: 700;
+}
+
+.dashboard-empty-tasks,
+.dashboard-loading {
+  margin: 0;
+  padding: 16px 0;
+  color: #68746c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dashboard-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 8px 0 16px;
+  padding: 12px 14px;
+  border-left: 3px solid #b34a3c;
+  background: #fff;
+}
+
+.dashboard-error p {
+  margin: 0;
+  color: #8e392f;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-error .button {
+  flex-shrink: 0;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0 8px;
+  font-size: 13px;
+}
+
+.progress-label strong {
+  font-weight: 700;
+}
+
+.progress-label span {
+  color: #68746c;
+  font-variant-numeric: tabular-nums;
+}
+
+.weekly-progress-bar {
+  display: block;
+  width: 100%;
+  height: 8px;
+  border: 0;
+  border-radius: 4px;
+  background: #e4eae4;
+  color: #397451;
+  accent-color: #397451;
+}
+
+.weekly-progress-bar::-webkit-progress-bar {
+  border-radius: 4px;
+  background: #e4eae4;
+}
+
+.weekly-progress-bar::-webkit-progress-value {
+  border-radius: 4px;
+  background: #397451;
+}
+
+.progress-breakdown {
+  display: grid;
+  gap: 0;
+  margin: 10px 0 0;
+}
+
+.progress-breakdown > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e7ebe6;
+  font-size: 13px;
+}
+
+.progress-breakdown dt {
+  color: #68746c;
+}
+
+.progress-breakdown dd {
+  margin: 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 720px) {
-  .dashboard-columns {
+  .dashboard-class-grid,
+  .dashboard-lower-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .dashboard-stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stat-item:nth-child(2) {
-    border-right: 0;
-  }
-
-  .stat-item:last-child {
-    grid-column: 1 / -1;
-    border-top: 1px solid #dce1da;
-    padding-left: 0;
+    gap: 20px;
   }
 }
 
@@ -153,8 +320,21 @@
     flex-direction: column;
   }
 
-  .dashboard-intro h2,
-  .empty-schedule h2 {
-    font-size: 29px;
+  .dashboard-intro h2 {
+    font-size: 28px;
+  }
+
+  .task-count {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .task-count:first-child {
+    padding-left: 0;
+  }
+
+  .dashboard-error {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

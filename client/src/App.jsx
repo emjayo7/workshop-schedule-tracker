@@ -155,6 +155,7 @@ function App() {
                 classes={classes}
                 onAddClass={openCreateForm}
                 onSelectClass={openClassDetails}
+                onNavigate={showView}
               />
             )}
             {view === "timetable" && (

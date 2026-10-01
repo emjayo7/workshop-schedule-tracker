@@ -18,6 +18,15 @@
   border-bottom: 0;
 }
 
+.schedule-item--next {
+  padding-left: 10px;
+  border-left: 3px solid #397451;
+}
+
+.schedule-item--next .schedule-time {
+  color: #235e42;
+}
+
 .schedule-time {
   display: grid;
   align-content: start;

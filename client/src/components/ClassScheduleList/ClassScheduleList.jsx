@@ -1,7 +1,13 @@
 import { formatClassTime } from "../../utils/classUtils.js";
 import "./ClassScheduleList.css";
 
-function ClassScheduleList({ classes, emptyMessage, showDay = false, onSelectClass }) {
+function ClassScheduleList({
+  classes,
+  emptyMessage,
+  showDay = false,
+  highlightClassId,
+  onSelectClass,
+}) {
   if (classes.length === 0) {
     return <p className="schedule-empty">{emptyMessage}</p>;
   }
@@ -9,7 +15,10 @@ function ClassScheduleList({ classes, emptyMessage, showDay = false, onSelectCla
   return (
     <ul className="schedule-list">
       {classes.map((classItem) => (
-        <li className="schedule-item" key={classItem._id}>
+        <li
+          className={`schedule-item${classItem._id === highlightClassId ? " schedule-item--next" : ""}`}
+          key={classItem._id}
+        >
           <time className="schedule-time">
             {formatClassTime(classItem.startTime)}
             <span>{formatClassTime(classItem.endTime)}</span>
@@ -17,7 +26,7 @@ function ClassScheduleList({ classes, emptyMessage, showDay = false, onSelectCla
           <div className="schedule-info">
             <button className="schedule-class-open" type="button" onClick={() => onSelectClass(classItem)}>
               {classItem.subjectName}
-              <span>View tasks</span>
+              <span>{classItem._id === highlightClassId ? "Next up · View tasks" : "View tasks"}</span>
             </button>
             <span>
               {showDay ? `${classItem.dayOfWeek} · ` : ""}
