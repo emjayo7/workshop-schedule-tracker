@@ -20,17 +20,25 @@ body {
 }
 
 .page-shell {
-  width: min(100% - 40px, 1080px);
+  width: min(100% - 48px, 1200px);
   margin: 0 auto;
 }
 
-.welcome {
-  width: min(100%, 660px);
-  padding: 100px 0 120px;
+.page-content {
+  padding: 28px 0 60px;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dce1da;
 }
 
 .eyebrow {
-  margin: 0 0 16px;
+  margin: 0 0 7px;
   color: #397451;
   font-size: 13px;
   font-weight: 700;
@@ -38,32 +46,73 @@ body {
 }
 
 h1 {
-  max-width: 620px;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(40px, 7vw, 66px);
+  font-size: 34px;
   font-weight: 400;
-  line-height: 1.06;
+  line-height: 1.15;
 }
 
-.intro {
-  max-width: 520px;
-  margin: 22px 0 34px;
+.page-heading .connection {
+  flex: 0 1 290px;
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.page-heading .connection p {
+  font-size: 12px;
+}
+
+.loading-message {
+  padding: 28px 0;
+  color: #68746c;
+}
+
+.error-panel {
+  max-width: 660px;
+  margin-top: 24px;
+  padding: 18px;
+  border-left: 3px solid #b34a3c;
+  background: #fff;
+}
+
+.error-panel strong {
+  color: #8e392f;
+}
+
+.error-panel p {
   color: #58635d;
-  font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .page-shell {
+    width: min(100% - 32px, 1200px);
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page-heading .connection {
+    width: min(100%, 420px);
+    flex-basis: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-content {
+    padding-top: 22px;
+  }
+
+  h1 {
+    font-size: 29px;
+  }
 }
 
 @media (max-width: 560px) {
   .page-shell {
-    width: min(100% - 32px, 1080px);
-  }
-
-  .welcome {
-    padding-top: 76px;
-  }
-
-  .intro {
-    font-size: 16px;
+    width: min(100% - 28px, 1200px);
   }
 }

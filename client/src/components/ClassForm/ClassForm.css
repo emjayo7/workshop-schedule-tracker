@@ -1,0 +1,126 @@
+.modal-backdrop {
+  position: fixed;
+  z-index: 5;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  place-items: center;
+  padding: 24px;
+  background: rgb(23 34 27 / 48%);
+}
+
+.class-form-dialog {
+  width: min(100%, 520px);
+  padding: 26px;
+  border: 1px solid #dce1da;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 18px 60px rgb(20 35 26 / 18%);
+}
+
+.dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.dialog-heading .eyebrow {
+  margin-bottom: 8px;
+}
+
+.dialog-heading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.close-button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #dce1da;
+  border-radius: 7px;
+  background: #fff;
+  color: #44534a;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.class-form,
+.class-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.class-form {
+  gap: 16px;
+}
+
+.class-form label {
+  color: #39463e;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.class-form label span {
+  color: #778078;
+  font-weight: 400;
+}
+
+.class-form input,
+.class-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid #cdd6ce;
+  border-radius: 6px;
+  background: #fff;
+  color: #202927;
+  font: inherit;
+  font-size: 15px;
+}
+
+.class-form input:focus,
+.class-form select:focus {
+  outline: 2px solid #7aa88a;
+  outline-offset: 1px;
+}
+
+.time-fields,
+.optional-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.form-error {
+  margin: 0;
+  color: #a03d32;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (max-width: 520px) {
+  .modal-backdrop {
+    align-items: end;
+    padding: 12px;
+  }
+
+  .class-form-dialog {
+    padding: 20px;
+  }
+
+  .time-fields,
+  .optional-fields {
+    grid-template-columns: 1fr;
+  }
+}
