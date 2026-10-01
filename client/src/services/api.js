@@ -1,3 +1,5 @@
+import { getCreatedDateKey, getLocalTodayKey } from "../utils/taskUtils.js";
+
 const apiBaseUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_BASE_URL || ""
   : "";
@@ -60,15 +62,26 @@ export function fetchTask(taskId) {
   return request(`/api/tasks/${taskId}`);
 }
 
+export function fetchTasks(status) {
+  const query = new URLSearchParams({ today: getLocalTodayKey() });
+  if (status) {
+    query.set("status", status);
+  }
+
+  return request(`/api/tasks?${query.toString()}`);
+}
+
 export function createTask(classId, taskData) {
-  return request(`/api/classes/${classId}/tasks`, {
+  const createdDate = getLocalTodayKey();
+  return request(`/api/classes/${classId}/tasks?createdDate=${createdDate}`, {
     method: "POST",
     body: JSON.stringify(taskData),
   });
 }
 
-export function updateTask(taskId, taskData) {
-  return request(`/api/tasks/${taskId}`, {
+export function updateTask(taskId, taskData, createdAt) {
+  const createdDate = getCreatedDateKey(createdAt);
+  return request(`/api/tasks/${taskId}?createdDate=${createdDate}`, {
     method: "PUT",
     body: JSON.stringify(taskData),
   });

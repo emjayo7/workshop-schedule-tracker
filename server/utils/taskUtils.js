@@ -41,3 +41,16 @@ export function getTaskStatus(task, today = getLocalDateKey()) {
   const dueDateKey = getDueDateKey(task.dueDate);
   return dueDateKey && dueDateKey < today ? "overdue" : "pending";
 }
+
+export function filterTasksByStatus(tasks, status, today = getLocalDateKey()) {
+  return tasks.filter((task) => {
+    const taskStatus = getTaskStatus(task, today);
+    return status ? taskStatus === status : taskStatus !== "completed";
+  });
+}
+
+export function toggleTaskCompletion(task, completedAt = new Date()) {
+  task.completed = !task.completed;
+  task.completedAt = task.completed ? completedAt : null;
+  return task;
+}

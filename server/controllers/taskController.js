@@ -2,7 +2,12 @@ import mongoose from "mongoose";
 import Class from "../models/Class.js";
 import Task from "../models/Task.js";
 import User from "../models/User.js";
-import { getTaskStatus } from "../utils/taskUtils.js";
+import {
+  filterTasksByStatus,
+  getLocalDateKey,
+  isValidDateOnly,
+  toggleTaskCompletion,
+} from "../utils/taskUtils.js";
 import { validateTaskInput } from "../utils/taskValidation.js";
 
 async function findDemoUser() {
@@ -51,8 +56,13 @@ export async function getClassTasks(request, response) {
 
 export async function getTasks(request, response) {
   const { status } = request.query;
+  const today = request.query.today || getLocalDateKey();
+
   if (status && !["pending", "overdue", "completed"].includes(status)) {
     return response.status(400).json({ success: false, message: "Status must be pending, overdue, or completed." });
+  }
+  if (!isValidDateOnly(today)) {
+    return response.status(400).json({ success: false, message: "Today must be a valid YYYY-MM-DD value." });
   }
 
   try {
@@ -62,13 +72,7 @@ export async function getTasks(request, response) {
     }
 
     const tasks = await Task.find({ userId: user._id }).sort({ dueDate: 1, createdAt: -1 });
-    const selectedTasks = tasks.filter((task) => {
-      const taskStatus = getTaskStatus(task);
-      if (status) {
-        return taskStatus === status;
-      }
-      return taskStatus !== "completed";
-    });
+    const selectedTasks = filterTasksByStatus(tasks, status, today);
 
     return response.json({ success: true, data: selectedTasks });
   } catch (error) {
@@ -103,7 +107,12 @@ export async function createTask(request, response) {
     return response.status(400).json({ success: false, message: "Invalid class ID." });
   }
 
-  const validationMessage = validateTaskInput(request.body);
+  const creationDateKey = request.query.createdDate;
+  if (creationDateKey && !isValidDateOnly(creationDateKey)) {
+    return response.status(400).json({ success: false, message: "Creation date must be a valid YYYY-MM-DD value." });
+  }
+
+  const validationMessage = validateTaskInput(request.body, { creationDateKey });
   if (validationMessage) {
     return response.status(400).json({ success: false, message: validationMessage });
   }
@@ -147,8 +156,14 @@ export async function updateTask(request, response) {
       return response.status(404).json({ success: false, message: "Task not found." });
     }
 
+    const creationDateKey = request.query.createdDate;
+    if (creationDateKey && !isValidDateOnly(creationDateKey)) {
+      return response.status(400).json({ success: false, message: "Creation date must be a valid YYYY-MM-DD value." });
+    }
+
     const validationMessage = validateTaskInput(request.body, {
       createdAt: task.createdAt,
+      creationDateKey,
     });
     if (validationMessage) {
       return response.status(400).json({ success: false, message: validationMessage });
@@ -178,8 +193,7 @@ export async function toggleTask(request, response) {
       return response.status(404).json({ success: false, message: "Task not found." });
     }
 
-    task.completed = !task.completed;
-    task.completedAt = task.completed ? new Date() : null;
+    toggleTaskCompletion(task);
     await task.save();
     return response.json({ success: true, data: task });
   } catch (error) {

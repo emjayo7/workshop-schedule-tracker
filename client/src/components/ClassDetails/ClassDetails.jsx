@@ -67,7 +67,7 @@ function ClassDetails({ classItem, onBack, onEditClass }) {
 
   async function saveTask(taskData) {
     const savedTask = editingTask
-      ? await updateTask(editingTask._id, taskData)
+      ? await updateTask(editingTask._id, taskData, editingTask.createdAt)
       : await createTask(classItem._id, taskData);
 
     setTasks((currentTasks) => editingTask

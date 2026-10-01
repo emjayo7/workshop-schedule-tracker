@@ -1,6 +1,10 @@
 import { getDueDateKey, getLocalDateKey, isValidDateOnly } from "./taskUtils.js";
 
-export function validateTaskInput(input, { partial = false, createdAt = new Date() } = {}) {
+export function validateTaskInput(input, {
+  partial = false,
+  createdAt = new Date(),
+  creationDateKey,
+} = {}) {
   if (!input || typeof input !== "object" || Array.isArray(input)) {
     return "Task details are required.";
   }
@@ -20,7 +24,11 @@ export function validateTaskInput(input, { partial = false, createdAt = new Date
       return "Due date must be a valid calendar date.";
     }
 
-    const creationDate = getLocalDateKey(new Date(createdAt));
+    const creationDate = creationDateKey || getLocalDateKey(new Date(createdAt));
+    if (!isValidDateOnly(creationDate)) {
+      return "Task creation date must be a valid calendar date.";
+    }
+
     if (getDueDateKey(input.dueDate) < creationDate) {
       return "Due date cannot be before the task was created.";
     }

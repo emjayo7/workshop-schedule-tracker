@@ -21,3 +21,13 @@ test("rejects invalid calendar dates and due dates before creation", () => {
   assert.equal(validateTaskInput({ title: "Read chapter", dueDate: "2025-02-29" }, { createdAt }), "Due date must be a valid calendar date.");
   assert.equal(validateTaskInput({ title: "Read chapter", dueDate: "2025-02-28" }, { createdAt }), "Due date cannot be before the task was created.");
 });
+
+test("uses the supplied local creation date instead of the server timezone", () => {
+  assert.equal(
+    validateTaskInput(
+      { title: "Read chapter", dueDate: "2026-10-01" },
+      { createdAt: new Date("2026-10-02T01:00:00.000Z"), creationDateKey: "2026-10-01" },
+    ),
+    null,
+  );
+});
