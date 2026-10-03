@@ -11,9 +11,6 @@ const port = process.env.PORT || process.env.port || 5000;
 
 app.use(createCorsMiddleware());
 app.use(express.json());
-app.use("/api/auth", authRoutes);
-app.use("/api/classes", classRoutes);
-app.use("/api", taskRoutes);
 
 app.get("/api/health", (_request, response) => {
   response.json({
@@ -24,6 +21,10 @@ app.get("/api/health", (_request, response) => {
     },
   });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/classes", classRoutes);
+app.use("/api", taskRoutes);
 
 async function startServer() {
   const mongoUri = process.env.MONGODB_URI;
