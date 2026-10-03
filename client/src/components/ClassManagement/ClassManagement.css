@@ -13,20 +13,20 @@
 .management-summary,
 .management-overlap {
   margin: 0;
-  color: #68746c;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.5;
 }
 
 .management-overlap {
   margin-top: 4px;
-  color: #9a5c20;
+  color: var(--warning);
 }
 
 .class-list {
   margin: 0;
   padding: 0;
-  border-top: 1px solid #cfd8d0;
+  border-top: 1px solid var(--border-strong);
   list-style: none;
 }
 
@@ -37,7 +37,7 @@
   gap: 18px;
   min-height: 84px;
   padding: 14px 0;
-  border-bottom: 1px solid #dce1da;
+  border-bottom: 1px solid var(--border);
 }
 
 .class-row-time,
@@ -55,7 +55,7 @@
 
 .class-row-time span,
 .class-row-subject span {
-  color: #6c776f;
+  color: var(--text-muted);
   font-size: 13px;
   overflow-wrap: anywhere;
 }
@@ -72,14 +72,14 @@
 }
 
 .class-row-subject .overlap-inline {
-  color: #a04432;
+  color: var(--danger);
   font-size: 12px;
   font-weight: 700;
 }
 
 .management-empty {
   padding: 36px 0;
-  border-top: 1px solid #cfd8d0;
+  border-top: 1px solid var(--border-strong);
 }
 
 .management-empty h2 {
@@ -90,7 +90,7 @@
 }
 
 .management-empty p {
-  color: #68746c;
+  color: var(--text-muted);
 }
 
 @media (max-width: 740px) {

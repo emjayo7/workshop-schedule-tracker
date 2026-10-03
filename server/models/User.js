@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
+export const userThemes = ["light", "dark", "system", "pink"];
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -23,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     theme: {
       type: String,
-      enum: ["light", "dark", "system"],
+      enum: userThemes,
       default: "light",
     },
   },

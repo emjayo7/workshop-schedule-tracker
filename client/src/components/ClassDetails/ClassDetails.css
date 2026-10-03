@@ -8,7 +8,7 @@
   padding: 4px 0;
   border: 0;
   background: transparent;
-  color: #315f43;
+  color: var(--accent);
   cursor: pointer;
   font: inherit;
   font-size: 14px;
@@ -25,7 +25,7 @@
   justify-content: space-between;
   gap: 18px;
   padding-bottom: 18px;
-  border-bottom: 1px solid #dce1da;
+  border-bottom: 1px solid var(--border);
 }
 
 .class-details-heading h1 {
@@ -34,7 +34,7 @@
 
 .class-details-time {
   margin: 8px 0 0;
-  color: #66736b;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -42,18 +42,18 @@
   display: flex;
   gap: 48px;
   padding: 2px 0 14px;
-  border-bottom: 1px solid #dce1da;
+  border-bottom: 1px solid var(--border);
 }
 
 .class-details-meta span {
   display: grid;
   gap: 4px;
-  color: #65736a;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
 .class-details-meta strong {
-  color: #34463a;
+  color: var(--text-secondary);
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -83,7 +83,7 @@
 
 .class-tasks-heading p:last-child {
   margin: 5px 0 0;
-  color: #6a756e;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
@@ -94,7 +94,7 @@
 .task-empty-state {
   margin-top: 20px;
   padding: 24px 0;
-  border-top: 1px solid #cfd8d0;
+  border-top: 1px solid var(--border-strong);
 }
 
 .task-empty-state h3 {
@@ -107,7 +107,7 @@
 .task-empty-state p,
 .task-loading,
 .task-load-error p {
-  color: #68746c;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -115,8 +115,8 @@
 .task-load-error {
   margin-top: 18px;
   padding: 16px;
-  border-left: 3px solid #b34a3c;
-  background: #fff;
+  border-left: 3px solid var(--danger-strong);
+  background: var(--surface);
 }
 
 .task-action-error {

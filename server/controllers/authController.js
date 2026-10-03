@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User, { userThemes } from "../models/User.js";
 import { clearAuthCookie, setAuthCookie } from "../utils/auth.js";
 
 function sanitizeUser(user) {
@@ -101,4 +101,30 @@ export function getCurrentUser(request, response) {
     success: true,
     data: { user: sanitizeUser(request.user) },
   });
+}
+
+export async function updateUserTheme(request, response) {
+  const theme = request.body?.theme;
+
+  if (!userThemes.includes(theme)) {
+    return response.status(400).json({
+      success: false,
+      message: `Theme must be one of: ${userThemes.join(", ")}.`,
+    });
+  }
+
+  try {
+    request.user.theme = theme;
+    await request.user.save();
+
+    return response.json({
+      success: true,
+      data: { user: sanitizeUser(request.user) },
+    });
+  } catch {
+    return response.status(500).json({
+      success: false,
+      message: "The theme preference could not be saved.",
+    });
+  }
 }

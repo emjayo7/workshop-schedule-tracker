@@ -37,6 +37,13 @@ export function fetchCurrentUser() {
   return request("/api/auth/me");
 }
 
+export function updateTheme(theme) {
+  return request("/api/auth/theme", {
+    method: "PATCH",
+    body: JSON.stringify({ theme }),
+  });
+}
+
 export function registerUser(formData) {
   return request("/api/auth/register", {
     method: "POST",

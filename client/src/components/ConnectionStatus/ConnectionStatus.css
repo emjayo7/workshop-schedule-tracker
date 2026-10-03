@@ -4,9 +4,9 @@
   gap: 14px;
   max-width: 520px;
   padding: 18px 20px;
-  border: 1px solid #dce1da;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
 }
 
 .connection-indicator {
@@ -15,15 +15,15 @@
   height: 10px;
   margin-top: 5px;
   border-radius: 50%;
-  background: #c28a3b;
+  background: var(--warning);
 }
 
 .connection--connected .connection-indicator {
-  background: #398052;
+  background: var(--accent-strong);
 }
 
 .connection--error .connection-indicator {
-  background: #b34a3c;
+  background: var(--danger-strong);
 }
 
 .connection strong {
@@ -32,7 +32,7 @@
 
 .connection p {
   margin: 5px 0 0;
-  color: #58635d;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.5;
   overflow-wrap: anywhere;

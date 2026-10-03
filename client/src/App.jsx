@@ -16,6 +16,7 @@ import {
   logoutUser,
   registerUser,
   updateClass,
+  updateTheme,
 } from "./services/api.js";
 import { sortClassesBySchedule } from "./utils/classUtils.js";
 
@@ -44,6 +45,25 @@ function App() {
   const [authForm, setAuthForm] = useState(emptyAuthForm);
   const [authError, setAuthError] = useState("");
   const [authChecking, setAuthChecking] = useState(true);
+  const [themeSaving, setThemeSaving] = useState(false);
+  const [themeError, setThemeError] = useState("");
+
+  useEffect(() => {
+    const preference = authUser?.theme || "light";
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const applyTheme = () => {
+      const theme = preference === "system" ? (media.matches ? "dark" : "light") : preference;
+      document.documentElement.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute(
+        "content",
+        theme === "dark" ? "#171c1a" : theme === "pink" ? "#fff4f8" : "#f4f5f0",
+      );
+    };
+
+    applyTheme();
+    media.addEventListener("change", applyTheme);
+    return () => media.removeEventListener("change", applyTheme);
+  }, [authUser?.theme]);
 
   async function loadClasses() {
     setLoading(true);
@@ -82,7 +102,7 @@ function App() {
     if (authUser) {
       loadClasses();
     }
-  }, [authUser]);
+  }, [authUser?._id]);
 
   async function handleAuthSubmit(event) {
     event.preventDefault();
@@ -109,6 +129,24 @@ function App() {
       setConnection({ state: "checking", message: "Checking the API..." });
     } catch (error) {
       setAuthError(error.message);
+    }
+  }
+
+  async function handleThemeChange(theme) {
+    if (!authUser || theme === authUser.theme) return;
+    const previousUser = authUser;
+    setThemeError("");
+    setAuthUser({ ...previousUser, theme });
+    setThemeSaving(true);
+
+    try {
+      const { user } = await updateTheme(theme);
+      setAuthUser(user);
+    } catch (error) {
+      setAuthUser(previousUser);
+      setThemeError(error.message);
+    } finally {
+      setThemeSaving(false);
     }
   }
 
@@ -183,7 +221,7 @@ function App() {
   if (authChecking) {
     return (
       <main className="page-shell">
-        <div className="page-content">
+        <div className="page-content auth-page-content">
           <p className="loading-message" role="status">Checking your session...</p>
         </div>
       </main>
@@ -193,16 +231,16 @@ function App() {
   if (!authUser) {
     return (
       <main className="page-shell">
-        <div className="page-content" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
-          <section style={{ width: "min(420px, 100%)", background: "#fff", borderRadius: "16px", padding: "2rem", boxShadow: "0 20px 45px rgba(15, 23, 42, 0.1)" }}>
+        <div className="page-content auth-page-content">
+          <section className="auth-panel">
             <p className="eyebrow">Workshop Schedule</p>
-            <h1 style={{ margin: "0 0 1rem" }}>{authMode === "login" ? "Welcome back" : "Create your account"}</h1>
-            <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+            <h1>{authMode === "login" ? "Welcome back" : "Create your account"}</h1>
+            <div className="auth-mode-switch">
               <button
                 className="button button--secondary"
                 type="button"
                 onClick={() => setAuthMode("login")}
-                style={{ flex: 1, borderColor: authMode === "login" ? "#3b82f6" : "#d1d5db" }}
+                aria-pressed={authMode === "login"}
               >
                 Log in
               </button>
@@ -210,15 +248,15 @@ function App() {
                 className="button button--secondary"
                 type="button"
                 onClick={() => setAuthMode("register")}
-                style={{ flex: 1, borderColor: authMode === "register" ? "#3b82f6" : "#d1d5db" }}
+                aria-pressed={authMode === "register"}
               >
                 Sign up
               </button>
             </div>
 
-            <form onSubmit={handleAuthSubmit} style={{ display: "grid", gap: "1rem" }}>
+            <form className="auth-form" onSubmit={handleAuthSubmit}>
               {authMode === "register" && (
-                <label style={{ display: "grid", gap: "0.4rem" }}>
+                <label>
                   <span>Name</span>
                   <input
                     value={authForm.name}
@@ -230,7 +268,7 @@ function App() {
                 </label>
               )}
 
-              <label style={{ display: "grid", gap: "0.4rem" }}>
+              <label>
                 <span>Email</span>
                 <input
                   value={authForm.email}
@@ -241,7 +279,7 @@ function App() {
                 />
               </label>
 
-              <label style={{ display: "grid", gap: "0.4rem" }}>
+              <label>
                 <span>Password</span>
                 <input
                   value={authForm.password}
@@ -253,7 +291,7 @@ function App() {
                 />
               </label>
 
-              {authError && <p className="form-error" role="alert">{authError}</p>}
+              {authError && <p className="form-error auth-error" role="alert">{authError}</p>}
 
               <button className="button button--primary" type="submit">
                 {authMode === "login" ? "Log in" : "Create account"}
@@ -272,7 +310,13 @@ function App() {
         onViewChange={showView}
         onAddClass={openCreateForm}
         onLogout={handleLogout}
+        userName={authUser.name}
+        theme={authUser.theme || "light"}
+        themeSaving={themeSaving}
+        onThemeChange={handleThemeChange}
       />
+
+      {themeError && <p className="theme-error" role="alert">Theme could not be saved: {themeError}</p>}
 
       <div className="page-content">
         {view !== "class-details" && (

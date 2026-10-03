@@ -11,7 +11,7 @@
   grid-template-columns: 88px minmax(0, 1fr);
   gap: 14px;
   padding: 15px 0;
-  border-bottom: 1px solid #e7ebe6;
+  border-bottom: 1px solid var(--border);
 }
 
 .schedule-item:last-child {
@@ -20,25 +20,25 @@
 
 .schedule-item--highlight {
   padding-left: 10px;
-  border-left: 3px solid #397451;
+  border-left: 3px solid var(--accent-strong);
 }
 
 .schedule-item--highlight .schedule-time {
-  color: #235e42;
+  color: var(--accent);
 }
 
 .schedule-time {
   display: grid;
   align-content: start;
   gap: 3px;
-  color: #293c30;
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .schedule-time span {
-  color: #768078;
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 500;
 }
@@ -56,7 +56,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #202927;
+  color: var(--text-primary);
   cursor: pointer;
   font: inherit;
   font-size: 15px;
@@ -65,12 +65,12 @@
 }
 
 .schedule-class-open:hover {
-  color: #235e42;
+  color: var(--accent);
   text-decoration: underline;
 }
 
 .schedule-class-open span {
-  color: #315f43;
+  color: var(--accent);
   font-size: 11px;
   font-weight: 700;
 }
@@ -81,7 +81,7 @@
 }
 
 .schedule-info > span {
-  color: #6a756e;
+  color: var(--text-muted);
   font-size: 13px;
   overflow-wrap: anywhere;
 }
@@ -89,6 +89,6 @@
 .schedule-empty {
   margin: 0;
   padding: 22px 0;
-  color: #6a756e;
+  color: var(--text-muted);
   font-size: 14px;
 }

@@ -6,7 +6,7 @@ const views = [
   { id: "classes", label: "Classes" },
 ];
 
-function AppHeader({ activeView, onViewChange, onAddClass, onLogout }) {
+function AppHeader({ activeView, onViewChange, onAddClass, onLogout, userName, theme, themeSaving, onThemeChange }) {
   return (
     <header className="topbar">
       <a className="brand" href="#overview" onClick={() => onViewChange("overview")}>
@@ -28,9 +28,19 @@ function AppHeader({ activeView, onViewChange, onAddClass, onLogout }) {
         ))}
       </nav>
 
-      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+      <div className="header-actions">
+        <label className="theme-picker">
+          <span>Theme</span>
+          <select value={theme} disabled={themeSaving} onChange={(event) => onThemeChange(event.target.value)} aria-label="Color theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="system">System</option>
+            <option value="pink">Pink</option>
+          </select>
+        </label>
+        <span className="header-user" title={userName}>{userName}</span>
         {onLogout && (
-          <button className="button button--secondary" type="button" onClick={onLogout}>
+          <button className="button button--secondary" type="button" disabled={themeSaving} onClick={onLogout}>
             Log out
           </button>
         )}

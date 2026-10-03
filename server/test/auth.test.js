@@ -1,7 +1,25 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import express from "express";
 import User from "../models/User.js";
 import { getCookieOptions, getJwtSecret } from "../utils/auth.js";
+import { updateUserTheme } from "../controllers/authController.js";
+import authRoutes from "../routes/authRoutes.js";
+
+function createResponse() {
+  return {
+    statusCode: 200,
+    body: null,
+    status(statusCode) {
+      this.statusCode = statusCode;
+      return this;
+    },
+    json(body) {
+      this.body = body;
+      return this;
+    },
+  };
+}
 
 test("User model hashes and verifies passwords", async () => {
   const user = new User({
@@ -68,4 +86,66 @@ test("auth cookies use secure cross-site settings only in production", () => {
       process.env.NODE_ENV = originalNodeEnv;
     }
   }
+});
+
+test("User model accepts and persists the pink theme", async () => {
+  const user = new User({ name: "Pink User", email: "pink@example.com", password: "SecurePass123!", theme: "pink" });
+  await user.validate();
+  assert.equal(user.theme, "pink");
+});
+
+test("theme update rejects values outside the supported themes", async () => {
+  const response = createResponse();
+  let saved = false;
+  const user = { theme: "light", async save() { saved = true; } };
+
+  await updateUserTheme({ user, body: { theme: "ultraviolet" } }, response);
+
+  assert.equal(response.statusCode, 400);
+  assert.equal(saved, false);
+});
+
+test("authenticated theme update saves only request.user and returns a sanitized user", async () => {
+  const response = createResponse();
+  const authenticatedUser = {
+    _id: "authenticated-user-id",
+    name: "Alice Example",
+    email: "alice@example.com",
+    password: "secret-hash",
+    theme: "light",
+    async save() { this.saved = true; },
+    toObject() {
+      return { _id: this._id, name: this.name, email: this.email, password: this.password, theme: this.theme };
+    },
+  };
+
+  await updateUserTheme({
+    user: authenticatedUser,
+    body: { theme: "pink", userId: "attacker-chosen-id" },
+  }, response);
+
+  assert.equal(authenticatedUser.theme, "pink");
+  assert.equal(authenticatedUser.saved, true);
+  assert.equal(response.body.data.user._id, "authenticated-user-id");
+  assert.equal(response.body.data.user.theme, "pink");
+  assert.equal("password" in response.body.data.user, false);
+  assert.equal("token" in response.body.data, false);
+});
+
+test("unauthenticated theme update is rejected by the authenticated route", async (context) => {
+  const app = express();
+  app.use(express.json());
+  app.use("/api/auth", authRoutes);
+  const server = app.listen(0);
+  await new Promise((resolve) => server.once("listening", resolve));
+  context.after(() => new Promise((resolve) => server.close(resolve)));
+
+  const response = await fetch(`http://127.0.0.1:${server.address().port}/api/auth/theme`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ theme: "pink" }),
+  });
+
+  assert.equal(response.status, 401);
+  assert.equal((await response.json()).success, false);
 });
