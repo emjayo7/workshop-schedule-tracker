@@ -15,6 +15,10 @@ async function findDemoUser() {
   return User.findOne({ email });
 }
 
+async function getRequestUser(request) {
+  return request.user || findDemoUser();
+}
+
 function sendServerError(response, error) {
   console.error("Task request failed:", error);
   return response.status(500).json({
@@ -37,7 +41,7 @@ export async function getClassTasks(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -66,7 +70,7 @@ export async function getTasks(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -86,7 +90,7 @@ export async function getTask(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -118,7 +122,7 @@ export async function createTask(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -146,7 +150,7 @@ export async function updateTask(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -183,7 +187,7 @@ export async function toggleTask(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -207,7 +211,7 @@ export async function deleteTask(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }

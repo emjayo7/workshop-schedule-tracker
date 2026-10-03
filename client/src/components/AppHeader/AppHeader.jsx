@@ -6,7 +6,7 @@ const views = [
   { id: "classes", label: "Classes" },
 ];
 
-function AppHeader({ activeView, onViewChange, onAddClass }) {
+function AppHeader({ activeView, onViewChange, onAddClass, onLogout }) {
   return (
     <header className="topbar">
       <a className="brand" href="#overview" onClick={() => onViewChange("overview")}>
@@ -28,9 +28,16 @@ function AppHeader({ activeView, onViewChange, onAddClass }) {
         ))}
       </nav>
 
-      <button className="button button--primary header-add" type="button" onClick={onAddClass}>
-        <span aria-hidden="true">+</span> Add class
-      </button>
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+        {onLogout && (
+          <button className="button button--secondary" type="button" onClick={onLogout}>
+            Log out
+          </button>
+        )}
+        <button className="button button--primary header-add" type="button" onClick={onAddClass}>
+          <span aria-hidden="true">+</span> Add class
+        </button>
+      </div>
     </header>
   );
 }

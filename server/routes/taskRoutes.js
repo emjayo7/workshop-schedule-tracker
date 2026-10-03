@@ -8,9 +8,11 @@ import {
   toggleTask,
   updateTask,
 } from "../controllers/taskController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
+router.use(authMiddleware);
 router.get("/classes/:classId/tasks", getClassTasks);
 router.post("/classes/:classId/tasks", createTask);
 router.get("/tasks", getTasks);

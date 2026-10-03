@@ -1,17 +1,17 @@
 import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
-import User from "./models/User.js";
 import classRoutes from "./routes/classRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import { createCorsMiddleware } from "./middleware/corsMiddleware.js";
 
 const app = express();
 const port = process.env.PORT || process.env.port || 5000;
-const demoUserEmail = process.env.DEMO_USER_EMAIL || "student@example.com";
 
 app.use(createCorsMiddleware());
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 app.use("/api/classes", classRoutes);
 app.use("/api", taskRoutes);
 
@@ -34,15 +34,9 @@ async function startServer() {
 
   await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000 });
 
-  await User.findOneAndUpdate(
-    { email: demoUserEmail },
-    { $setOnInsert: { name: "Demo Student", email: demoUserEmail } },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
-  );
-
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
-    console.log(`MongoDB connected; development user is ${demoUserEmail}`);
+    console.log("MongoDB connected");
   });
 }
 

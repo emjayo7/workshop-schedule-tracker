@@ -6,9 +6,11 @@ import {
   getClasses,
   updateClass,
 } from "../controllers/classController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
+router.use(authMiddleware);
 router.get("/", getClasses);
 router.get("/:id", getClass);
 router.post("/", createClass);

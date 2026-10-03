@@ -7,6 +7,7 @@ const apiBaseUrl = import.meta.env.PROD
 async function request(path, options = {}) {
   const response = await fetch(`${apiBaseUrl}${path}`, {
     ...options,
+    credentials: "include",
     headers: {
       Accept: "application/json",
       ...(options.body ? { "Content-Type": "application/json" } : {}),
@@ -30,6 +31,28 @@ async function request(path, options = {}) {
 
 export function fetchHealth() {
   return request("/api/health");
+}
+
+export function fetchCurrentUser() {
+  return request("/api/auth/me");
+}
+
+export function registerUser(formData) {
+  return request("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify(formData),
+  });
+}
+
+export function loginUser(formData) {
+  return request("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify(formData),
+  });
+}
+
+export function logoutUser() {
+  return request("/api/auth/logout", { method: "POST" });
 }
 
 export function fetchClasses() {

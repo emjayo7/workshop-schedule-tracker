@@ -9,6 +9,10 @@ async function findDemoUser() {
   return User.findOne({ email });
 }
 
+async function getRequestUser(request) {
+  return request.user || findDemoUser();
+}
+
 function sendServerError(response, error) {
   console.error("Class request failed:", error);
   return response.status(500).json({
@@ -28,9 +32,9 @@ function getClassData(input) {
   };
 }
 
-export async function getClasses(_request, response) {
+export async function getClasses(request, response) {
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -53,7 +57,7 @@ export async function getClass(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -76,7 +80,7 @@ export async function createClass(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -99,7 +103,7 @@ export async function updateClass(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }
@@ -123,7 +127,7 @@ export async function deleteClass(request, response) {
   }
 
   try {
-    const user = await findDemoUser();
+    const user = await getRequestUser(request);
     if (!user) {
       return response.status(500).json({ success: false, message: "Development user is missing." });
     }

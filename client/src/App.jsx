@@ -10,10 +10,20 @@ import {
   createClass,
   deleteClass,
   fetchClasses,
+  fetchCurrentUser,
   fetchHealth,
+  loginUser,
+  logoutUser,
+  registerUser,
   updateClass,
 } from "./services/api.js";
 import { sortClassesBySchedule } from "./utils/classUtils.js";
+
+const emptyAuthForm = {
+  name: "",
+  email: "",
+  password: "",
+};
 
 function App() {
   const [classes, setClasses] = useState([]);
@@ -29,6 +39,11 @@ function App() {
     state: "checking",
     message: "Checking the API...",
   });
+  const [authUser, setAuthUser] = useState(null);
+  const [authMode, setAuthMode] = useState("login");
+  const [authForm, setAuthForm] = useState(emptyAuthForm);
+  const [authError, setAuthError] = useState("");
+  const [authChecking, setAuthChecking] = useState(true);
 
   async function loadClasses() {
     setLoading(true);
@@ -47,8 +62,55 @@ function App() {
   }
 
   useEffect(() => {
-    loadClasses();
+    async function restoreSession() {
+      try {
+        const { user } = await fetchCurrentUser();
+        setAuthUser(user);
+        setConnection({ state: "connected", message: `Signed in as ${user.name}` });
+      } catch {
+        setAuthUser(null);
+        setConnection({ state: "checking", message: "Checking the API..." });
+      } finally {
+        setAuthChecking(false);
+      }
+    }
+
+    restoreSession();
   }, []);
+
+  useEffect(() => {
+    if (authUser) {
+      loadClasses();
+    }
+  }, [authUser]);
+
+  async function handleAuthSubmit(event) {
+    event.preventDefault();
+    setAuthError("");
+
+    try {
+      const payload = authMode === "login"
+        ? await loginUser(authForm)
+        : await registerUser(authForm);
+      setAuthUser(payload.user);
+      setAuthForm(emptyAuthForm);
+    } catch (error) {
+      setAuthError(error.message);
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      await logoutUser();
+      setAuthUser(null);
+      setAuthMode("login");
+      setClasses([]);
+      setActionError("");
+      setConnection({ state: "checking", message: "Checking the API..." });
+    } catch (error) {
+      setAuthError(error.message);
+    }
+  }
 
   function openCreateForm() {
     setEditingClass(null);
@@ -118,12 +180,98 @@ function App() {
     }
   }
 
+  if (authChecking) {
+    return (
+      <main className="page-shell">
+        <div className="page-content">
+          <p className="loading-message" role="status">Checking your session...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!authUser) {
+    return (
+      <main className="page-shell">
+        <div className="page-content" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+          <section style={{ width: "min(420px, 100%)", background: "#fff", borderRadius: "16px", padding: "2rem", boxShadow: "0 20px 45px rgba(15, 23, 42, 0.1)" }}>
+            <p className="eyebrow">Workshop Schedule</p>
+            <h1 style={{ margin: "0 0 1rem" }}>{authMode === "login" ? "Welcome back" : "Create your account"}</h1>
+            <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+              <button
+                className="button button--secondary"
+                type="button"
+                onClick={() => setAuthMode("login")}
+                style={{ flex: 1, borderColor: authMode === "login" ? "#3b82f6" : "#d1d5db" }}
+              >
+                Log in
+              </button>
+              <button
+                className="button button--secondary"
+                type="button"
+                onClick={() => setAuthMode("register")}
+                style={{ flex: 1, borderColor: authMode === "register" ? "#3b82f6" : "#d1d5db" }}
+              >
+                Sign up
+              </button>
+            </div>
+
+            <form onSubmit={handleAuthSubmit} style={{ display: "grid", gap: "1rem" }}>
+              {authMode === "register" && (
+                <label style={{ display: "grid", gap: "0.4rem" }}>
+                  <span>Name</span>
+                  <input
+                    value={authForm.name}
+                    onChange={(event) => setAuthForm((current) => ({ ...current, name: event.target.value }))}
+                    type="text"
+                    placeholder="Your name"
+                    required={authMode === "register"}
+                  />
+                </label>
+              )}
+
+              <label style={{ display: "grid", gap: "0.4rem" }}>
+                <span>Email</span>
+                <input
+                  value={authForm.email}
+                  onChange={(event) => setAuthForm((current) => ({ ...current, email: event.target.value }))}
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                />
+              </label>
+
+              <label style={{ display: "grid", gap: "0.4rem" }}>
+                <span>Password</span>
+                <input
+                  value={authForm.password}
+                  onChange={(event) => setAuthForm((current) => ({ ...current, password: event.target.value }))}
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                  minLength={8}
+                />
+              </label>
+
+              {authError && <p className="form-error" role="alert">{authError}</p>}
+
+              <button className="button button--primary" type="submit">
+                {authMode === "login" ? "Log in" : "Create account"}
+              </button>
+            </form>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="page-shell">
       <AppHeader
         activeView={view === "class-details" ? "classes" : view}
         onViewChange={showView}
         onAddClass={openCreateForm}
+        onLogout={handleLogout}
       />
 
       <div className="page-content">
